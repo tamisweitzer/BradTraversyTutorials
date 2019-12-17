@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML5 Web Storage</title>
+    <!-- https://www.youtube.com/watch?v=2hyOJRXgHLo  -->
+    <style>
+        body { font-family: sans-serif; font-size: 1.5rem;}
+        #input { 
+            margin: 1rem auto; 
+            padding: 1rem;
+            border: 1px solid #eee; 
+            border-radius: 5px;
+        }
+        #output {
+            margin: 1rem auto; 
+            padding: 1rem;
+            border: 1px solid #eee; 
+            border-radius: 5px;
+        }
+        .form-group label { width: 125px; display: inline-block; margin: 0.5rem 0; }
+        .form-group input { width: calc(100% - 155px); margin: 0.5rem 0; padding: 0.5rem; }
+        .form-group button { width: 125px; padding: 0.5rem 1rem; margin: 0.5rem 0;  }
+    </style>
+</head>
+<body>
+    
+    <div id="input">
+        <form action="">
+            <div  class="form-group">
+                <label for="theKey">The Key</label>
+                <input type="text" id="theKey">
+            </div>
+            <div  class="form-group">
+                <label for="theValue">The Value</label>
+                <input type="text" id="theValue">
+            </div>
+            <div  class="form-group">
+                <button id="button" type="submit">Submit</button>
+                <button><a href="javascript:clear()">Clear Items</a></button>
+            </div>
+        </form>
+        
+    </div>
+
+    <div id="output"></div>
+    </div>
+
+    <script>
+        function doFirst() {
+            var button = document.getElementById('button');
+            button.addEventListener('click', save, false);
+            display();
+        }
+
+        function save() {
+            var key = document.getElementById('theKey').value;
+            var value = document.getElementById('theValue').value;
+            sessionStorage.setItem(key, value);
+            display();
+            key.value = "";
+            value.value = "";
+        }
+
+        function display() {
+            var output = document.getElementById('output');
+            output.innerHTML = "";
+
+            for (var i = 0; i < sessionStorage.length; i++) {
+                var k = sessionStorage.key(i);
+                var item = sessionStorage.getItem(k);
+                output.innerHTML += k + " - " + item + "<br>";
+            }
+        }
+
+        function clear() {
+            sessionStorage.clear();
+            location.reload();
+        }
+
+        window.addEventListener("load", doFirst, false);
+    </script>
+</body>
+</html>
